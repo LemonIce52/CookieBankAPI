@@ -1,4 +1,4 @@
-package com.example.cookieBank.repository.impl;
+package com.example.cookieBank.repository;
 
 import com.example.cookieBank.repository.entities.TransactionalEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

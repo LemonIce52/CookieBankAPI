@@ -1,4 +1,4 @@
-package com.example.cookieBank.DTO.client;
+package com.example.cookieBank.dto.client;
 
 import jakarta.validation.constraints.NotBlank;
 
@@ -8,5 +8,9 @@ public record CreateClientDTO(
         @NotBlank(message = "lastName can't must be null or empty!")
         String lastName,
         @NotBlank(message = "phone can't must be null or empty!")
-        String phone
+        String phone,
+        @NotBlank(message = "accountNumber can't must be null or empty!")
+        String accountNumber,
+        @NotBlank(message = "secretPin can't must be null or empty!")
+        String secretPin
 ) {}

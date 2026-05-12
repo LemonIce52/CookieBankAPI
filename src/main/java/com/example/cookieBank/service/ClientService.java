@@ -1,10 +1,12 @@
 package com.example.cookieBank.service;
 
-import com.example.cookieBank.DTO.client.ClientDTO;
-import com.example.cookieBank.DTO.client.CreateClientDTO;
-import com.example.cookieBank.DTO.client.UpdateClientDTO;
+import com.example.cookieBank.dto.client.ClientDTO;
+import com.example.cookieBank.dto.client.CreateClientDTO;
+import com.example.cookieBank.dto.client.UpdateClientDTO;
+import com.example.cookieBank.repository.AccountRepository;
+import com.example.cookieBank.repository.entities.AccountEntity;
 import com.example.cookieBank.repository.entities.ClientEntity;
-import com.example.cookieBank.repository.impl.ClientRepository;
+import com.example.cookieBank.repository.ClientRepository;
 import jakarta.persistence.NoResultException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -15,23 +17,37 @@ import java.util.List;
 public class ClientService {
 
     private final ClientRepository clientRepository;
-    private final ConverterService converterService;
+    private final AccountRepository accountRepository;
+    private final ConverterToDtoService converterToDtoService;
 
-    public ClientService(ClientRepository clientRepository, ConverterService converterService) {
+    public ClientService(ClientRepository clientRepository, AccountRepository accountRepository, ConverterToDtoService converterToDtoService) {
         this.clientRepository = clientRepository;
-        this.converterService = converterService;
+        this.accountRepository = accountRepository;
+        this.converterToDtoService = converterToDtoService;
     }
 
+    @Transactional
     public ClientDTO saveClient(CreateClientDTO createClient) {
-        ClientEntity savedClient = clientRepository.save(
-                new ClientEntity(
-                        createClient.name(),
-                        createClient.lastName(),
-                        createClient.phone()
-                )
-        );
+        ClientEntity client = clientRepository.getClientEntityByPhoneAndName(createClient.name(), createClient.phone());
 
-        return converterService.convertClientToDTO(savedClient);
+        if (client == null) {
+            AccountEntity account = new AccountEntity(createClient.accountNumber(), createClient.secretPin());
+            accountRepository.save(account);
+
+            client = clientRepository.save(
+                    new ClientEntity(
+                            createClient.name(),
+                            createClient.lastName(),
+                            createClient.phone(),
+                            account
+                    )
+            );
+        } else {
+            client.setAlive(true);
+            client.getAccount().setAlive(true);
+        }
+
+        return converterToDtoService.convertClientToDTO(client);
     }
 
     @Transactional
@@ -54,7 +70,7 @@ public class ClientService {
             client.setPhone(updateClient.phone());
         }
 
-        return converterService.convertClientToDTO(client);
+        return converterToDtoService.convertClientToDTO(client);
     }
 
     public ClientDTO getClientById(Long id) {
@@ -63,14 +79,14 @@ public class ClientService {
         if (client == null)
             throw new NoResultException("client with id=" + id + " not found!");
 
-        return converterService.convertClientToDTO(client);
+        return converterToDtoService.convertClientToDTO(client);
     }
 
     public List<ClientDTO> getAllClient() {
         return clientRepository
                 .getAllClientEntity()
                 .stream()
-                .map(converterService::convertClientToDTO)
+                .map(converterToDtoService::convertClientToDTO)
                 .toList();
     }
 
@@ -85,5 +101,6 @@ public class ClientService {
             throw new IllegalArgumentException("the client was deleted earlier");
 
         client.setAlive(false);
+        client.getAccount().setAlive(false);
     }
 }

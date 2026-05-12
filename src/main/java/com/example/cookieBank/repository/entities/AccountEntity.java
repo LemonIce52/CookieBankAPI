@@ -36,11 +36,7 @@ public class AccountEntity {
     )
     private BigDecimal balance;
 
-    @ManyToOne
-    @JoinColumn(
-            name = "client",
-            referencedColumnName = "client_id"
-    )
+    @OneToOne(mappedBy = "account")
     private ClientEntity client;
 
     @Column(
@@ -54,11 +50,10 @@ public class AccountEntity {
 
     public AccountEntity() {}
 
-    public AccountEntity(String number, String accountAccessPin, BigDecimal balance, ClientEntity client) {
+    public AccountEntity(String number, String accountAccessPin) {
         this.number = number;
         this.accountAccessPin = accountAccessPin;
-        this.balance = balance;
-        this.client = client;
+        this.balance = new BigDecimal(0);
         this.isAlive = true;
     }
 

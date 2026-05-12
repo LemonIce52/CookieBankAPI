@@ -40,15 +40,20 @@ public class ClientEntity {
     )
     private Boolean isAlive;
 
-    @OneToMany(mappedBy = "client")
-    private Set<AccountEntity> accounts;
+    @OneToOne
+    @JoinColumn(
+            name = "account",
+            referencedColumnName = "account_id"
+    )
+    private AccountEntity account;
 
     public ClientEntity() {}
 
-    public ClientEntity(String name, String lastName, String phone) {
+    public ClientEntity(String name, String lastName, String phone, AccountEntity account) {
         this.name = name;
         this.lastName = lastName;
         this.phone = phone;
+        this.account = account;
         this.isAlive = true;
     }
 
@@ -92,11 +97,11 @@ public class ClientEntity {
         isAlive = alive;
     }
 
-    public Set<AccountEntity> getAccounts() {
-        return accounts;
+    public AccountEntity getAccount() {
+        return account;
     }
 
-    public void setAccounts(Set<AccountEntity> accounts) {
-        this.accounts = accounts;
+    public void setAccount(AccountEntity account) {
+        this.account = account;
     }
 }

@@ -6,15 +6,15 @@
   </component>
   <component name="DBNavigator.Project.DataEditorManager">
     <record-view-column-sorting-type value="BY_INDEX" />
-    <value-preview-text-wrapping value="true" />
+    <value-preview-text-wrapping value="false" />
     <value-preview-pinned value="false" />
   </component>
   <component name="DBNavigator.Project.DatabaseAssistantManager">
     <assistants>
-      <assistant-state connection-id="b5f6af67-eece-4633-b16d-5277e196f0b7" assistant-type="SELECT_AI" default-profile-name="" selected-chat-id="" availability="UNAVAILABLE" acknowledgement="NONE">
+      <assistant-state connection-id="b5f6af67-eece-4633-b16d-5277e196f0b7" assistant-type="PUBLIC" default-profile-name="" selected-chat-id="" availability="AVAILABLE" acknowledgement="NONE" selected="true">
         <tools />
       </assistant-state>
-      <assistant-state connection-id="b5f6af67-eece-4633-b16d-5277e196f0b7" assistant-type="PUBLIC" default-profile-name="" selected-chat-id="" availability="AVAILABLE" acknowledgement="NONE" selected="true">
+      <assistant-state connection-id="b5f6af67-eece-4633-b16d-5277e196f0b7" assistant-type="SELECT_AI" default-profile-name="" selected-chat-id="" availability="UNAVAILABLE" acknowledgement="NONE">
         <tools />
       </assistant-state>
     </assistants>
@@ -44,6 +44,18 @@
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="b5f6af67-eece-4633-b16d-5277e196f0b7" />
+  </component>
+  <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="b5f6af67-eece-4633-b16d-5277e196f0b7" dataset="public.transactions" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="b5f6af67-eece-4633-b16d-5277e196f0b7" dataset="public.accounts" active-filter-id="EMPTY_FILTER">
+      <filter id="e59e9c2e-baa0-419d-a910-920e62eac499" name="Filter" temporary="false" custom-name="false" type="basic" join-type="AND" />
+    </filter-actions>
+    <filter-actions connection-id="b5f6af67-eece-4633-b16d-5277e196f0b7" dataset="public.clients" active-filter-id="7b792333-2acb-4dd0-93e6-31253ac1521c">
+      <filter id="7b792333-2acb-4dd0-93e6-31253ac1521c" name="Filter" temporary="false" custom-name="false" type="basic" join-type="AND" />
+    </filter-actions>
+  </component>
+  <component name="DBNavigator.Project.ExecutionManager">
+    <retain-sticky-names value="false" />
   </component>
   <component name="DBNavigator.Project.ObjectQuickFilterManager">
     <last-used-operator value="EQUAL" />
@@ -605,5 +617,9 @@
         </visibility-settings>
       </environment>
     </general-settings>
+  </component>
+  <component name="DBNavigator.Project.StatementExecutionManager">
+    <execution-variables />
+    <execution-variable-types />
   </component>
 </project>

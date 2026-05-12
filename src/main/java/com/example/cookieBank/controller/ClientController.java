@@ -1,8 +1,8 @@
 package com.example.cookieBank.controller;
 
-import com.example.cookieBank.DTO.client.ClientDTO;
-import com.example.cookieBank.DTO.client.CreateClientDTO;
-import com.example.cookieBank.DTO.client.UpdateClientDTO;
+import com.example.cookieBank.dto.client.ClientDTO;
+import com.example.cookieBank.dto.client.CreateClientDTO;
+import com.example.cookieBank.dto.client.UpdateClientDTO;
 import com.example.cookieBank.service.ClientService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.PositiveOrZero;

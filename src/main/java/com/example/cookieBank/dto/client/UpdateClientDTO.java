@@ -1,4 +1,4 @@
-package com.example.cookieBank.DTO.client;
+package com.example.cookieBank.dto.client;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;

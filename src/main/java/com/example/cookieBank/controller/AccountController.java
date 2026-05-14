@@ -40,7 +40,7 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.OK).body(account);
     }
 
-    @PutMapping("/updatePin")
+    @PutMapping("/updatePin/me")
     public void updatePin(
             @Valid @RequestBody UpdatePinDTO updatePin,
             @AuthenticationPrincipal @PositiveOrZero(message = "id can't must be less zero!") Long clientId

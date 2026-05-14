@@ -1,5 +1,6 @@
 package com.example.cookieBank.repository.entities;
 
+import com.example.cookieBank.dto.payment.PaymentStatus;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -29,6 +30,13 @@ public class TransactionalEntity {
     )
     private BigDecimal sumTransaction;
 
+    @Enumerated(EnumType.STRING)
+    @Column(
+            name = "payment_status",
+            nullable = false
+    )
+    private PaymentStatus paymentStatus;
+
     @ManyToOne
     @JoinColumn(
             name = "with_account",
@@ -48,11 +56,13 @@ public class TransactionalEntity {
     public TransactionalEntity(
             LocalDateTime dateTime,
             BigDecimal sumTransaction,
+            PaymentStatus paymentStatus,
             AccountEntity withAccount,
             AccountEntity toAccount
     ) {
         this.dateTime = dateTime;
         this.sumTransaction = sumTransaction;
+        this.paymentStatus = paymentStatus;
         this.withAccount = withAccount;
         this.toAccount = toAccount;
     }
@@ -95,5 +105,13 @@ public class TransactionalEntity {
 
     public void setToAccount(AccountEntity toAccount) {
         this.toAccount = toAccount;
+    }
+
+    public PaymentStatus getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(PaymentStatus paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 }

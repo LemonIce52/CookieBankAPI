@@ -26,6 +26,7 @@ public class TransactionalService {
                 new TransactionalEntity(
                         LocalDateTime.now(),
                         createTransactional.sum(),
+                        createTransactional.paymentStatus(),
                         createTransactional.withAccount(),
                         createTransactional.toAccount()
                 )

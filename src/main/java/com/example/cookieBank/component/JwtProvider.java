@@ -14,7 +14,8 @@ public class JwtProvider {
 
     private final String secretString = "mySuperSecretKeyForCookieBankProject2026!!!";
     private final SecretKey key = Keys.hmacShaKeyFor(secretString.getBytes(StandardCharsets.UTF_8));
-    private final Long jwtExpirationsMs = 3600000L;
+    private final Long refreshJwtExpirationsMs = 3600000L;
+    private final Long jwtExpirationsMs = 900000L;
 
     public String generateToken(Long clientId, String role) {
         return Jwts.builder()
@@ -22,6 +23,15 @@ public class JwtProvider {
                 .claim("role", role)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + jwtExpirationsMs))
+                .signWith(key)
+                .compact();
+    }
+
+    public String generateRefreshToken(Long clientId) {
+        return Jwts.builder()
+                .subject(String.valueOf(clientId))
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + refreshJwtExpirationsMs))
                 .signWith(key)
                 .compact();
     }

@@ -11,10 +11,10 @@
   </component>
   <component name="DBNavigator.Project.DatabaseAssistantManager">
     <assistants>
-      <assistant-state connection-id="b5f6af67-eece-4633-b16d-5277e196f0b7" assistant-type="SELECT_AI" default-profile-name="" selected-chat-id="" availability="UNAVAILABLE" acknowledgement="NONE">
+      <assistant-state connection-id="b5f6af67-eece-4633-b16d-5277e196f0b7" assistant-type="PUBLIC" default-profile-name="" selected-chat-id="" availability="AVAILABLE" acknowledgement="NONE" selected="true">
         <tools />
       </assistant-state>
-      <assistant-state connection-id="b5f6af67-eece-4633-b16d-5277e196f0b7" assistant-type="PUBLIC" default-profile-name="" selected-chat-id="" availability="AVAILABLE" acknowledgement="NONE" selected="true">
+      <assistant-state connection-id="b5f6af67-eece-4633-b16d-5277e196f0b7" assistant-type="SELECT_AI" default-profile-name="" selected-chat-id="" availability="UNAVAILABLE" acknowledgement="NONE">
         <tools />
       </assistant-state>
     </assistants>
@@ -46,6 +46,9 @@
     <connection id="b5f6af67-eece-4633-b16d-5277e196f0b7" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="b5f6af67-eece-4633-b16d-5277e196f0b7" dataset="public.refresh_tokens" active-filter-id="29d3dbae-65de-4602-b984-faeb1f699c69">
+      <filter id="29d3dbae-65de-4602-b984-faeb1f699c69" name="Filter" temporary="false" custom-name="false" type="basic" join-type="AND" />
+    </filter-actions>
     <filter-actions connection-id="b5f6af67-eece-4633-b16d-5277e196f0b7" dataset="public.transactions" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="b5f6af67-eece-4633-b16d-5277e196f0b7" dataset="public.accounts" active-filter-id="EMPTY_FILTER">
       <filter id="e59e9c2e-baa0-419d-a910-920e62eac499" name="Filter" temporary="false" custom-name="false" type="basic" join-type="AND" />

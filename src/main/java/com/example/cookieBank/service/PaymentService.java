@@ -12,6 +12,8 @@ import jakarta.persistence.NoResultException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 @Service
 public class PaymentService {
 
@@ -45,16 +47,33 @@ public class PaymentService {
 
     @Transactional
     private PaymentDTO createPayment(CreatePaymentDTO createTransactional) {
-        AccountEntity withAccount = accountRepository
-                .getAccountEntitiesByAccountNumber(createTransactional.withAccountNumber())
-                .orElseThrow(() -> new NoResultException("Account with number " + createTransactional.withAccountNumber() + " not found!"));
+        if (createTransactional.withAccountNumber().equals(createTransactional.toAccountNumber()))
+            return createTransactionAndPayment(null, null, createTransactional.sum(), PaymentStatus.INCORRECT);
+
+        AccountEntity toAccount;
+        AccountEntity withAccount;
+
+        if (createTransactional.withAccountNumber().compareTo(createTransactional.toAccountNumber()) < 0) {
+            withAccount = accountRepository
+                    .getAccountEntitiesByAccountNumberForUpdate(createTransactional.withAccountNumber())
+                    .orElse(null);
+            toAccount = accountRepository
+                    .getAccountEntitiesByAccountNumberForUpdate(createTransactional.toAccountNumber())
+                    .orElse(null);
+        } else {
+            toAccount = accountRepository
+                    .getAccountEntitiesByAccountNumberForUpdate(createTransactional.toAccountNumber())
+                    .orElse(null);
+            withAccount = accountRepository
+                    .getAccountEntitiesByAccountNumberForUpdate(createTransactional.withAccountNumber())
+                    .orElse(null);
+        }
+
+        if (withAccount == null || toAccount == null)
+            return createTransactionAndPayment(withAccount, toAccount, createTransactional.sum(), PaymentStatus.CANCELED);
 
         if (withAccount.getBalance().compareTo(createTransactional.sum()) < 0)
-            throw new IllegalArgumentException("Balance is less sum!");
-
-        AccountEntity toAccount = accountRepository
-                .getAccountEntitiesByAccountNumber(createTransactional.toAccountNumber())
-                .orElseThrow(() -> new NoResultException("Account with number " + createTransactional.toAccountNumber() + " not found!"));
+            return createTransactionAndPayment(withAccount, toAccount, createTransactional.sum(), PaymentStatus.INCORRECT);
 
         withAccount.setBalance(
                 withAccount.getBalance().subtract(createTransactional.sum())
@@ -64,16 +83,26 @@ public class PaymentService {
                 toAccount.getBalance().add(createTransactional.sum())
         );
 
+        return createTransactionAndPayment(withAccount, toAccount, createTransactional.sum(), PaymentStatus.SUCCESS);
+    }
+
+    private PaymentDTO createTransactionAndPayment(
+            AccountEntity withAccount,
+            AccountEntity toAccount,
+            BigDecimal sum,
+            PaymentStatus status
+    ) {
         TransactionalDTO transaction = transactionalService.createTransactional(
                 new CreateTransactionalDTO(
                         withAccount,
                         toAccount,
-                        createTransactional.sum()
+                        sum,
+                        status
                 )
         );
 
         return new PaymentDTO(
-                PaymentStatus.SUCCESS,
+                status,
                 transaction
         );
     }

@@ -55,6 +55,9 @@ public class ClientEntity {
     )
     private AccountEntity account;
 
+    @OneToOne(mappedBy = "client")
+    private TokensEntity token;
+
     public ClientEntity() {}
 
     public ClientEntity(String name, String lastName, String phone, RoleClients role, AccountEntity account) {
@@ -120,5 +123,13 @@ public class ClientEntity {
 
     public void setRole(RoleClients role) {
         this.role = role;
+    }
+
+    public TokensEntity getToken() {
+        return token;
+    }
+
+    public void setToken(TokensEntity token) {
+        this.token = token;
     }
 }

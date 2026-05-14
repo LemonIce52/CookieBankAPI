@@ -86,7 +86,8 @@ public class ConverterToDtoService {
                 transactional.getDateTime(),
                 transactional.getSumTransaction(),
                 withAccountNumber,
-                toAccountNumber
+                toAccountNumber,
+                transactional.getPaymentStatus()
         );
     }
 }

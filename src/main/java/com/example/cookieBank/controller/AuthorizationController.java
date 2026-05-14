@@ -2,6 +2,7 @@ package com.example.cookieBank.controller;
 
 import com.example.cookieBank.dto.auth.AuthDTO;
 import com.example.cookieBank.dto.auth.LoginDTO;
+import com.example.cookieBank.dto.auth.RefreshTokenDTO;
 import com.example.cookieBank.dto.client.ClientDTO;
 import com.example.cookieBank.dto.client.CreateClientDTO;
 import com.example.cookieBank.service.AuthorizationService;
@@ -37,6 +38,14 @@ public class AuthorizationController {
     ) {
         AuthDTO auth = authorizationService.loginClient(login);
         return ResponseEntity.status(HttpStatus.OK).body(auth);
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<AuthDTO> refreshToken(
+            @Valid @RequestBody RefreshTokenDTO refreshToken
+    ) {
+        AuthDTO refresh = authorizationService.refreshToken(refreshToken);
+        return ResponseEntity.status(HttpStatus.OK).body(refresh);
     }
     
 }

@@ -1,5 +1,6 @@
 package com.example.cookieBank.repository.entities;
 
+import com.example.cookieBank.dto.payment.PaymentStatus;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -40,7 +41,14 @@ public class ClientEntity {
     )
     private Boolean isAlive;
 
-    @OneToOne
+    @Enumerated(EnumType.STRING)
+    @Column(
+            name = "role",
+            nullable = false
+    )
+    private RoleClients role;
+
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             name = "account",
             referencedColumnName = "account_id"
@@ -49,11 +57,12 @@ public class ClientEntity {
 
     public ClientEntity() {}
 
-    public ClientEntity(String name, String lastName, String phone, AccountEntity account) {
+    public ClientEntity(String name, String lastName, String phone, RoleClients role, AccountEntity account) {
         this.name = name;
         this.lastName = lastName;
         this.phone = phone;
         this.account = account;
+        this.role = role;
         this.isAlive = true;
     }
 
@@ -103,5 +112,13 @@ public class ClientEntity {
 
     public void setAccount(AccountEntity account) {
         this.account = account;
+    }
+
+    public RoleClients getRole() {
+        return role;
+    }
+
+    public void setRole(RoleClients role) {
+        this.role = role;
     }
 }

@@ -1,6 +1,6 @@
 package com.example.cookieBank.dto.account;
 
-import com.example.cookieBank.dto.client.ClientDTO;
+import com.example.cookieBank.dto.client.ShortClientDTO;
 
 import java.math.BigDecimal;
 
@@ -8,5 +8,5 @@ public record AccountDTO(
         Long id,
         String number,
         BigDecimal balance,
-        ClientDTO client
+        ShortClientDTO client
 ) {}

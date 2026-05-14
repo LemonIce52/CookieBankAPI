@@ -6,14 +6,18 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AccountRepository extends JpaRepository<AccountEntity, Long> {
 
-    @Query("select a from AccountEntity a left join fetch a.client where a.id = :id and a.isAlive <> false")
-    AccountEntity getAccountEntitiesById(Long id);
+    @Query("select a from AccountEntity a left join fetch a.client c where c.id = :id and a.isAlive <> false and a.number not like 'SYSTEM-%'")
+    Optional<AccountEntity> getAccountEntitiesByClientId(Long id);
 
-    @Query("select a from AccountEntity a left join fetch a.client where a.isAlive <> false")
+    @Query("select a from AccountEntity a where a.number = :number and a.isAlive <> false")
+    Optional<AccountEntity>  getAccountEntitiesByAccountNumber(String number);
+
+    @Query("select a from AccountEntity a left join fetch a.client where a.isAlive <> false and a.number not like 'SYSTEM-%'")
     List<AccountEntity> getAllAccounts();
 
 }

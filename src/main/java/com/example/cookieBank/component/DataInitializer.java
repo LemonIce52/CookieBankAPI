@@ -3,8 +3,9 @@ package com.example.cookieBank.component;
 import com.example.cookieBank.repository.AccountRepository;
 import com.example.cookieBank.repository.ClientRepository;
 import com.example.cookieBank.repository.entities.AccountEntity;
-import com.example.cookieBank.repository.entities.ClientEntity;
+import com.example.cookieBank.repository.entities.client.ClientEntity;
 import com.example.cookieBank.repository.entities.RoleClients;
+import com.example.cookieBank.repository.entities.client.CompanyClientEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,13 +29,13 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-        if (clientRepository.getSystemClient("BANK") < 1) {
+        if (clientRepository.getSystemClient() < 1) {
             String pin = passwordEncoder.encode("B$A@N!K09_0213");
             AccountEntity account = new AccountEntity("SYSTEM-001", pin);
             account.setBalance(new BigDecimal("1000000000000"));
             accountRepository.save(account);
 
-            ClientEntity client = new ClientEntity("BANK", "COOKIE", "89990001515" , RoleClients.ADMIN, account);
+            ClientEntity client = new CompanyClientEntity("89990001515" , RoleClients.ADMIN, account, "ООО\"CookieBank\"");
             clientRepository.save(client);
         }
     }

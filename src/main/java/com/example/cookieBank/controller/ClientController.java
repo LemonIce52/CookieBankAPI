@@ -1,7 +1,6 @@
 package com.example.cookieBank.controller;
 
 import com.example.cookieBank.dto.client.ClientDTO;
-import com.example.cookieBank.dto.client.CreateClientDTO;
 import com.example.cookieBank.dto.client.UpdateClientDTO;
 import com.example.cookieBank.dto.payment.PaymentDTO;
 import com.example.cookieBank.dto.payment.RequestPaymentDTO;

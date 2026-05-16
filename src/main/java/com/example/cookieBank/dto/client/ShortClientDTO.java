@@ -4,6 +4,7 @@ public record ShortClientDTO(
         Long id,
         String name,
         String lastName,
+        String companyName,
         String phone
 ) {
 }

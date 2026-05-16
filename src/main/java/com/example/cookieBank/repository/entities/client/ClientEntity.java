@@ -1,12 +1,14 @@
-package com.example.cookieBank.repository.entities;
+package com.example.cookieBank.repository.entities.client;
 
-import com.example.cookieBank.dto.payment.PaymentStatus;
+import com.example.cookieBank.repository.entities.AccountEntity;
+import com.example.cookieBank.repository.entities.RoleClients;
+import com.example.cookieBank.repository.entities.TokensEntity;
 import jakarta.persistence.*;
-
-import java.util.Set;
 
 @Entity
 @Table(name = "clients")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "discriminator_type")
 public class ClientEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,18 +17,6 @@ public class ClientEntity {
             nullable = false
     )
     private Long id;
-
-    @Column(
-            name = "name",
-            nullable = false
-    )
-    private String name;
-
-    @Column(
-            name = "last_name",
-            nullable = false
-    )
-    private String lastName;
 
     @Column(
             name = "phone",
@@ -60,9 +50,7 @@ public class ClientEntity {
 
     public ClientEntity() {}
 
-    public ClientEntity(String name, String lastName, String phone, RoleClients role, AccountEntity account) {
-        this.name = name;
-        this.lastName = lastName;
+    public ClientEntity(String phone, RoleClients role, AccountEntity account) {
         this.phone = phone;
         this.account = account;
         this.role = role;
@@ -75,22 +63,6 @@ public class ClientEntity {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public String getPhone() {

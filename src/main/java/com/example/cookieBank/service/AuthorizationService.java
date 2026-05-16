@@ -8,7 +8,8 @@ import com.example.cookieBank.dto.client.ClientDTO;
 import com.example.cookieBank.dto.client.CreateClientDTO;
 import com.example.cookieBank.repository.ClientRepository;
 import com.example.cookieBank.repository.TokenRepository;
-import com.example.cookieBank.repository.entities.ClientEntity;
+import com.example.cookieBank.repository.entities.RoleClients;
+import com.example.cookieBank.repository.entities.client.ClientEntity;
 import com.example.cookieBank.repository.entities.TokensEntity;
 import jakarta.persistence.NoResultException;
 import jakarta.transaction.Transactional;
@@ -37,10 +38,9 @@ public class AuthorizationService {
         this.jwtProvider = jwtProvider;
     }
 
-    public ClientDTO registerClient(CreateClientDTO createClient) {
-        return clientService.saveClient(createClient);
+    public ClientDTO registerClient(CreateClientDTO createClient, RoleClients role) {
+        return clientService.saveClient(createClient, role);
     }
-
 
     @Transactional
     public AuthDTO loginClient(LoginDTO login) {

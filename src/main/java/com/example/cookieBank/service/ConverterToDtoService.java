@@ -6,8 +6,10 @@ import com.example.cookieBank.dto.client.ClientDTO;
 import com.example.cookieBank.dto.client.ShortClientDTO;
 import com.example.cookieBank.dto.transactional.TransactionalDTO;
 import com.example.cookieBank.repository.entities.AccountEntity;
-import com.example.cookieBank.repository.entities.ClientEntity;
+import com.example.cookieBank.repository.entities.client.ClientEntity;
 import com.example.cookieBank.repository.entities.TransactionalEntity;
+import com.example.cookieBank.repository.entities.client.CompanyClientEntity;
+import com.example.cookieBank.repository.entities.client.IndividualClientEntity;
 import jakarta.persistence.Persistence;
 import org.springframework.stereotype.Service;
 
@@ -23,13 +25,34 @@ public class ConverterToDtoService {
             account = convertAccountToShortDTO(clientEntity.getAccount());
         }
 
-        return new ClientDTO(
-                clientEntity.getId(),
-                clientEntity.getName(),
-                clientEntity.getLastName(),
-                clientEntity.getPhone(),
-                account
-        );
+        if (clientEntity instanceof IndividualClientEntity individualClient) {
+            return new ClientDTO(
+                    individualClient.getId(),
+                    individualClient.getName(),
+                    individualClient.getLastName(),
+                    null,
+                    individualClient.getPhone(),
+                    account
+            );
+        } else if (clientEntity instanceof CompanyClientEntity companyClient) {
+            return new ClientDTO(
+                    companyClient.getId(),
+                    null,
+                    null,
+                    companyClient.getCompanyName(),
+                    companyClient.getPhone(),
+                    account
+            );
+        } else {
+            return new ClientDTO(
+                    clientEntity.getId(),
+                    null,
+                    null,
+                    null,
+                    clientEntity.getPhone(),
+                    account
+            );
+        }
     }
 
     public AccountDTO convertAccountToDTO(AccountEntity account) {
@@ -58,12 +81,31 @@ public class ConverterToDtoService {
     }
 
     public ShortClientDTO convertClientToShortDTO(ClientEntity client) {
-        return new ShortClientDTO(
-                client.getId(),
-                client.getName(),
-                client.getLastName(),
-                client.getPhone()
-        );
+        if (client instanceof IndividualClientEntity individualClient) {
+            return new ShortClientDTO(
+                    individualClient.getId(),
+                    individualClient.getName(),
+                    individualClient.getLastName(),
+                    null,
+                    individualClient.getPhone()
+            );
+        } else if (client instanceof CompanyClientEntity companyClient) {
+            return new ShortClientDTO(
+                    companyClient.getId(),
+                    null,
+                    null,
+                    companyClient.getCompanyName(),
+                    companyClient.getPhone()
+            );
+        } else {
+            return new ShortClientDTO(
+                    client.getId(),
+                    null,
+                    null,
+                    null,
+                    client.getPhone()
+            );
+        }
     }
 
     public TransactionalDTO convertTransactionalToDTO(TransactionalEntity transactional) {

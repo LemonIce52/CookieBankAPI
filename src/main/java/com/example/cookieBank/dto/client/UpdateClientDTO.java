@@ -12,6 +12,8 @@ public record UpdateClientDTO(
         String name,
         @Pattern(regexp = "^(?!\\s*$).+", message = "lastName can't must be empty!")
         String lastName,
+        @Pattern(regexp = "^(?!\\s*$).+", message = "companyName can't must be empty!")
+        String companyName,
         @Pattern(regexp = "^(?!\\s*$).+", message = "phone can't must be empty!")
         String phone
 ) {

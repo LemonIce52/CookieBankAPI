@@ -6,6 +6,7 @@ public record ClientDTO(
         Long id,
         String name,
         String lastName,
+        String companyName,
         String phone,
         ShortAccountDTO account
 ) {}

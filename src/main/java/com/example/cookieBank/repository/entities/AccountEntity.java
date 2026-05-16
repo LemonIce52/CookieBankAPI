@@ -1,5 +1,6 @@
 package com.example.cookieBank.repository.entities;
 
+import com.example.cookieBank.repository.entities.client.ClientEntity;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;

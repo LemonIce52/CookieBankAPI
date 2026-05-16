@@ -5,6 +5,7 @@ import com.example.cookieBank.dto.auth.LoginDTO;
 import com.example.cookieBank.dto.auth.RefreshTokenDTO;
 import com.example.cookieBank.dto.client.ClientDTO;
 import com.example.cookieBank.dto.client.CreateClientDTO;
+import com.example.cookieBank.repository.entities.RoleClients;
 import com.example.cookieBank.service.AuthorizationService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,15 @@ public class AuthorizationController {
     public ResponseEntity<ClientDTO> registerClient(
             @Valid @RequestBody CreateClientDTO createClient
     ) {
-        ClientDTO client = authorizationService.registerClient(createClient);
+        ClientDTO client = authorizationService.registerClient(createClient, RoleClients.CLIENT);
+        return ResponseEntity.status(HttpStatus.CREATED).body(client);
+    }
+
+    @PostMapping("/registerCompany")
+    public ResponseEntity<ClientDTO> registerCompanyClient(
+            @Valid @RequestBody CreateClientDTO createClient
+    ) {
+        ClientDTO client = authorizationService.registerClient(createClient, RoleClients.COMPANY);
         return ResponseEntity.status(HttpStatus.CREATED).body(client);
     }
 
